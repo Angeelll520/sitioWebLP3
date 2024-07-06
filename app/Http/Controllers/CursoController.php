@@ -14,6 +14,20 @@ class CursoController extends Controller
         $cursos = Curso::all();
         return view("cursos.verCursos", compact('cursos'));
     }
+    public function index()
+    {
+        $cursos = Curso::all();
+        return view('home', compact('cursos'));
+    }
+    public function buscar(Request $request)
+    {
+        $query = $request->input('query');
+        $cursos = Curso::where('nombre', 'LIKE', "%{$query}%")
+                        ->orWhere('descripcion', 'LIKE', "%{$query}%")
+                        ->get();
+
+        return view('cursos.resultadosBusqueda', compact('cursos', 'query'));
+    }
 
     public function crear(){
         return view("cursos.registro");
@@ -139,6 +153,8 @@ public function nuevo($idCurso) {
             return redirect("/home");
         }
     }
+
+    
 
     public function ver() {
         if(Auth::check() && Auth::user()->tipo == "estudiante") {

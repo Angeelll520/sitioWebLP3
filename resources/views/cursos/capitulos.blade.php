@@ -4,8 +4,12 @@
 <div class="container">
 
     <div class="mb-3">
+    @if (Auth::check() && Auth::user()->tipo == 'profesor')
         <a href="{{ route('capitulo.nuevo', ['idCurso' => $curso->id]) }}" class="btn btn-primary">Agregar Capítulo</a>
+        @endif
     </div>
+    
+                    
 
     <div class="table-responsive">
         <table class="table table-striped">

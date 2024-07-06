@@ -15,6 +15,8 @@ Route::post('/cursos/comprar', [CursoController::class, 'comprar'])->name('curso
 Route::get('/curso/{id}/capitulos', [CursoController::class, 'capitulos'])->name('curso.capitulos');
 Route::get('/capitulo/nuevo/{idCurso}', [CursoController::class, 'nuevo'])->name('capitulo.nuevo');
 Route::post('/capitulo/guardar', [CursoController::class, 'guardarCapitulo'])->name('capitulo.guardar');
+Route::get('/cursos/buscar', [CursoController::class, 'buscar'])->name('cursos.buscar');
+
 
 
 
@@ -25,7 +27,7 @@ Route::post('/capitulo/guardar', [CursoController::class, 'guardarCapitulo'])->n
 // Rutas de autenticación
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\CursoController::class, 'index'])->name('home');
 
 // Otras rutas
 Route::get('/', function () {

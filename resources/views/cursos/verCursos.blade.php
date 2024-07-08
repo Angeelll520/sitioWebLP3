@@ -42,26 +42,26 @@
     </div>
 </div>
 
-<!-- Script para mostrar mensaje de confirmación -->
+
 <script>
-    // Espera a que el documento esté listo
+   
     document.addEventListener('DOMContentLoaded', function() {
-        // Selecciona todos los botones con clase 'comprar-curso'
+    
         const botonesComprar = document.querySelectorAll('.comprar-curso');
 
-        // Itera sobre cada botón y agrega un listener de clic
+ 
         botonesComprar.forEach(boton => {
             boton.addEventListener('click', function(e) {
-                e.preventDefault(); // Previene el envío del formulario por defecto
-                const cursoId = this.getAttribute('data-curso'); // Obtiene el ID del curso
+                e.preventDefault(); 
+                const cursoId = this.getAttribute('data-curso'); 
 
-                // Muestra un mensaje de confirmación
+        
                 if (confirm(`¿Estás seguro de comprar este curso?`)) {
-                    // Si el usuario confirma, envía el formulario
+                 
                     const formulario = document.createElement('form');
                     formulario.method = 'POST';
                     formulario.action = '{{ route('cursos.comprar') }}';
-                    formulario.style.display = 'none'; // Oculta el formulario
+                    formulario.style.display = 'none'; 
                     const csrfField = document.createElement('input');
                     csrfField.type = 'hidden';
                     csrfField.name = '_token';
@@ -73,9 +73,9 @@
                     formulario.appendChild(csrfField);
                     formulario.appendChild(cursoIdField);
                     document.body.appendChild(formulario);
-                    formulario.submit(); // Envía el formulario
+                    formulario.submit();
                 } else {
-                    // Si el usuario cancela, no hace nada
+                 
                     return false;
                 }
             });

@@ -9,14 +9,14 @@ class CreateCursosTable extends Migration
     public function up()
     {
         Schema::create('cursos', function (Blueprint $table) {
-            $table->id();
-            $table->string('nombre')->unique();
+            $table->bigIncrements('id');
+            $table->string('nombre', 255);
             $table->decimal('precio', 8, 2);
             $table->text('descripcion');
-            $table->integer('duracion'100);
-            $table->string('imagen')->nullable();
-            $table->boolean('disponible')->default(true);
-            $table->string('instructor')->nullable(); 
+            $table->integer('duracion');
+            $table->string('imagen', 255)->nullable();
+            $table->tinyInteger('disponible')->default(1);
+            $table->string('instructor')->nullable();
             $table->timestamps();
         });
     }

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-bs-theme="dark">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" > <!-- data-bs-theme="dark"-->
 <head>
     <link rel="stylesheet" href="{{ asset('css/animate.min.css') }}">
     <meta charset="utf-8">

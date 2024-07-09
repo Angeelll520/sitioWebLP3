@@ -11,12 +11,12 @@ class CreateCursosTable extends Migration
         Schema::create('cursos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre')->unique();
-            $table->decimal('precio', 10, 2); 
+            $table->decimal('precio', 8, 2);
             $table->text('descripcion');
-            $table->string('duracion');
+            $table->integer('duracion');
             $table->string('imagen')->nullable();
-            
-            
+            $table->boolean('disponible')->default(true);
+            $table->string('instructor')->nullable(); 
             $table->timestamps();
         });
     }

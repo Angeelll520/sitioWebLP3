@@ -16,12 +16,47 @@
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #f7f9fa;
+        }
+        .navbar {
+            background-color: #343a40 !important;
+        }
+        .navbar-brand, .nav-link, .dropdown-item {
+            color: #ffffff !important;
+        }
+        .nav-link:hover, .dropdown-item:hover {
+            color: #a435f0 !important;
+        }
+        .btn-primary {
+            background-color: #a435f0;
+            border-color: #a435f0;
+        }
+        .btn-primary:hover {
+            background-color: #722ac8;
+            border-color: #722ac8;
+        }
+        .card {
+            border-radius: 8px;
+        }
+        .card-header {
+            background-color: #343a40;
+            color: #ffffff;
+        }
+        .container {
+            max-width: 1200px;
+        }
+    </style>
+
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-dark shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
@@ -35,15 +70,15 @@
                     <ul class="navbar-nav me-auto">
                         @auth
                         <li class="nav-item">
-                        <a class="nav-link" href="{{ route('cursos.mostrar') }}">Mostrar Cursos</a>
+                            <a class="nav-link" href="{{ route('cursos.mostrar') }}">Mostrar Cursos</a>
                         </li>
                         @if(Auth::user()->tipo=="profesor")                        
                         <li class="nav-item">
-                        <a class="nav-link" href="{{ route('cursos.registrar') }}">Registrar Curso</a>
+                            <a class="nav-link" href="{{ route('cursos.registrar') }}">Registrar Curso</a>
                         </li>
                         @else
                         <li class="nav-item">
-                        <a class="nav-link" href="{{ route('cursos.ver') }}">Mis Cursos Comprados</a>
+                            <a class="nav-link" href="{{ route('cursos.ver') }}">Mis Cursos Comprados</a>
                         </li>
                         @endif
                         @endauth

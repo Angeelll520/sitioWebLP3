@@ -12,7 +12,7 @@ class CursoController extends Controller
 {
     public function mostrar(){
         $cursos = Curso::all();
-        return view("cursos.verCursos", compact('cursos'));
+        return view("cursos.verCursos",$cursos, compact('cursos'));
     }
     public function index()
     {
@@ -24,7 +24,7 @@ class CursoController extends Controller
         $query = $request->input('query');
         $cursos = Curso::where('nombre', 'LIKE', "%{$query}%")
                         ->orWhere('descripcion', 'LIKE', "%{$query}%")
-                        ->get();
+                        ->get();    
 
         return view('cursos.resultadosBusqueda', compact('cursos', 'query'));
     }
@@ -33,31 +33,37 @@ class CursoController extends Controller
         return view("cursos.registro");
     }
 
-    public function guardar(Request $request){
-        $request->validate([
-            "nombre" => "required|unique:cursos,nombre",
-            "precio" => "required|numeric",
-            "descripcion" => "required",
-            "duracion" => "required",
-            "imagen" => "required|image|mimes:jpeg,png,jpg,gif|max:2048", 
-        ]);
-    
-        $curso = new Curso();
-        $curso->nombre = $request->input("nombre");
-        $curso->precio = $request->input("precio");
-        $curso->descripcion = $request->input("descripcion");
-        $curso->duracion = $request->input("duracion");
-    
-        // Procesar la imagen
-        if ($request->hasFile('imagen')) {
-            $imagenPath = $request->file('imagen')->store('upload','public');
-            $curso->imagen = $imagenPath;
-        }
-    
-        $curso->save();
-    
-        return redirect("/cursos/mostrar");
+    public function guardar(Request $request)
+{
+    $request->validate([
+        "nombre" => "required|unique:cursos,nombre",
+        "precio" => "required|numeric",
+        "descripcion" => "required",
+        "duracion" => "required",
+        "imagen" => "required|image|mimes:jpeg,png,jpg,gif|max:2048", 
+    ]);
+
+    // Crear una nueva instancia del modelo Curso
+    $curso = new Curso();
+    $curso->nombre = $request->input("nombre");
+    $curso->precio = $request->input("precio");
+    $curso->descripcion = $request->input("descripcion");
+    $curso->duracion = $request->input("duracion");
+
+    // Procesar y almacenar la imagen si está presente en la solicitud
+    if ($request->hasFile('imagen')) {
+        $curso->imagen = $request->file('imagen')->store('upload', 'public');
     }
+
+    // Guardar el curso en la base de datos
+    $curso->save();
+
+    // Redireccionar a la vista de cursos mostrando un mensaje de éxito
+    return redirect("/cursos/mostrar")->with('success', '¡Curso agregado con éxito!');
+}
+
+
+
     public function capitulos($id)
 {
     $curso = Curso::findOrFail($id);

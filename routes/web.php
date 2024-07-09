@@ -16,7 +16,10 @@ Route::get('/curso/{id}/capitulos', [CursoController::class, 'capitulos'])->name
 Route::get('/capitulo/nuevo/{idCurso}', [CursoController::class, 'nuevo'])->name('capitulo.nuevo');
 Route::post('/capitulo/guardar', [CursoController::class, 'guardarCapitulo'])->name('capitulo.guardar');
 Route::get('/cursos/buscar', [CursoController::class, 'buscar'])->name('cursos.buscar');
-
+Route::post('/carrito/agregar/{curso_id}', [CursoController::class, 'agregarAlCarrito'])->name('carrito.agregar');
+Route::get('/ver-carrito', [CursoController::class, 'verCarrito'])->name('ver.carrito');
+Route::post('/carrito/eliminar/{curso_id}', [CursoController::class, 'eliminarDelCarrito'])->name('carrito.eliminar');
+Route::get('/pagar', [CursoController::class, 'eliminarDelCarrito'])->name('pagar');
 
 
 

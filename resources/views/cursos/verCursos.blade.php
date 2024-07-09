@@ -18,8 +18,7 @@
         @foreach($cursos as $curso)
         <div class="col-md-4 mb-4">
             <div class="card">
-            <img src="{{asset('storage').'/'.$curso->imagen }}" class="card-img-top" alt="{{ $curso->nombre }}">
-
+                <img src="{{ asset('storage').'/'.$curso->imagen }}" class="card-img-top" alt="{{ $curso->nombre }}">
                 <div class="card-body">
                     <h5 class="card-title">{{ $curso->nombre }}</h5>
                     <p class="card-text">{{ $curso->descripcion }}</p>
@@ -31,55 +30,20 @@
                     @if (Auth::check() && Auth::user()->tipo == 'profesor')
                         <a href="{{ route('curso.capitulos', ['id' => $curso->id]) }}" class="btn btn-primary">Entrar al Curso</a>
                     @endif
-
                     @if (Auth::user()->tipo == 'estudiante')
-                                    <button class="btn btn-primary comprar-curso" data-curso="{{ $curso->id }}">Comprar</button>
-                                @endif
+                        <form action="{{ route('carrito.agregar', ['curso_id' => $curso->id]) }}" method="POST" style="display: inline;">
+                            @csrf
+                            <button type="submit" class="btn btn-success">Agregar al Carrito</button>
+                        </form>
+                    @endif
                 </div>
             </div>
         </div>
         @endforeach
     </div>
+    <div class="mt-4 text-center">
+        <a href="{{ route('ver.carrito') }}" class="btn btn-primary">Ver Carrito</a>
+    </div>
 </div>
 
-
-<script>
-   
-    document.addEventListener('DOMContentLoaded', function() {
-    
-        const botonesComprar = document.querySelectorAll('.comprar-curso');
-
- 
-        botonesComprar.forEach(boton => {
-            boton.addEventListener('click', function(e) {
-                e.preventDefault(); 
-                const cursoId = this.getAttribute('data-curso'); 
-
-        
-                if (confirm(`¿Estás seguro de comprar este curso?`)) {
-                 
-                    const formulario = document.createElement('form');
-                    formulario.method = 'POST';
-                    formulario.action = '{{ route('cursos.comprar') }}';
-                    formulario.style.display = 'none'; 
-                    const csrfField = document.createElement('input');
-                    csrfField.type = 'hidden';
-                    csrfField.name = '_token';
-                    csrfField.value = '{{ csrf_token() }}';
-                    const cursoIdField = document.createElement('input');
-                    cursoIdField.type = 'hidden';
-                    cursoIdField.name = 'curso_id';
-                    cursoIdField.value = cursoId;
-                    formulario.appendChild(csrfField);
-                    formulario.appendChild(cursoIdField);
-                    document.body.appendChild(formulario);
-                    formulario.submit();
-                } else {
-                 
-                    return false;
-                }
-            });
-        });
-    });
-</script>
 @endsection

@@ -174,4 +174,54 @@ public function nuevo($idCurso) {
             return redirect("/home");
         }
     }
+
+    public function agregarAlCarrito($curso_id)
+{
+    $curso = Curso::find($curso_id);
+
+    if (!$curso) {
+        return redirect()->back()->with('error', 'El curso no existe.');
+    }
+
+    $carrito = session()->get('carrito');
+
+  
+    if (!$carrito) {
+        $carrito = [];
+    }
+
+ 
+    $carrito[$curso_id] = [
+        'id' => $curso->id,
+        'nombre' => $curso->nombre,
+        'precio' => $curso->precio,
+        'descripcion' => $curso->descripcion,
+        
+    ];
+
+    
+    session()->put('carrito', $carrito);
+
+    return redirect()->back()->with('success', 'Curso agregado al carrito.');
+}
+
+public function verCarrito()
+{
+    $carrito = session()->get('carrito');
+
+    return view('compras.ver', compact('carrito'));
+}
+
+public function eliminarDelCarrito($curso_id)
+{
+    $carrito = session()->get('carrito');
+
+    if (isset($carrito[$curso_id])) {
+        unset($carrito[$curso_id]);
+        session()->put('carrito', $carrito);
+    }
+
+    return redirect()->back()->with('success', 'Curso eliminado del carrito.');
+}
+
 }

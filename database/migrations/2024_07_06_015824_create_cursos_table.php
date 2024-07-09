@@ -13,7 +13,7 @@ class CreateCursosTable extends Migration
             $table->string('nombre')->unique();
             $table->decimal('precio', 8, 2);
             $table->text('descripcion');
-            $table->integer('duracion');
+            $table->integer('duracion'100);
             $table->string('imagen')->nullable();
             $table->boolean('disponible')->default(true);
             $table->string('instructor')->nullable(); 

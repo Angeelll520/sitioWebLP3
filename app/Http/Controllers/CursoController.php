@@ -7,12 +7,19 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Capitulo;
 use App\Models\Curso;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 
 class CursoController extends Controller
 {
-    public function mostrar(){
+    public function mostrar()
+    {
         $cursos = Curso::all();
-        return view("cursos.verCursos",$cursos, compact('cursos'));
+        $randomImage = "https://picsum.photos/200/300?random=" . rand(); // Generar URL aleatoria de imagen
+
+        return view("cursos.verCursos", [
+            'cursos' => $cursos,
+            'randomImage' => $randomImage,
+        ]);
     }
     public function index()
     {
@@ -138,18 +145,24 @@ public function nuevo($idCurso) {
 }
 
 
-    public function eliminar($id)
-    {
-        $curso = Curso::find($id);
+public function eliminar($id)
+{
+    $curso = Curso::find($id);
 
-        if (!$curso) {
-            return redirect()->back()->with('error', 'El curso no existe.');
-        }
-
-        $curso->delete();
-
-        return redirect()->back()->with('success', 'Curso eliminado correctamente.');
+    if (!$curso) {
+        return redirect()->back()->with('error', 'El curso no existe.');
     }
+
+    
+    if ($curso->imagen) {
+        Storage::disk('public')->delete($curso->imagen);
+    }
+
+    
+    $curso->delete();
+
+    return redirect()->back()->with('success', 'Curso eliminado correctamente.');
+}
     
 
     public function registrar() {
@@ -228,35 +241,47 @@ public function pagar()
     {
         $carrito = session()->get('carrito');
 
-        // Puedes agregar lógica adicional aquí para validar el carrito antes de proceder al pago
 
         return view('compras.pagar', compact('carrito'));
     }
 
     public function procesarPago(Request $request)
-    {
-        
-        $montoTotal = 0; 
+{
+    $user = Auth::user();
+    $carrito = session()->get('carrito');
 
-        $carrito = session()->get('carrito');
-
-        foreach ($carrito as $curso) {
-           
-            $montoTotal += $curso['precio'];
-        }
-
-     
-        Session::forget('carrito');
-
-        return redirect()->route('home')->with('success', 'Pago realizado correctamente. ¡Gracias por tu compra!');
+    if (!$user || empty($carrito)) {
+        return redirect()->back()->with('error', 'No se pudo realizar la compra.');
     }
+
+    foreach ($carrito as $curso) {
+        $user->cursos()->attach($curso['id']);
+    }
+
+    session()->forget('carrito');
+
+    return redirect()->route('cursos.ver')->with('success', '¡Compra realizada con éxito!');
+}
 
 
     public function realizarPago(Request $request)
-    {
+{
+    $user = Auth::user();
+    $carrito = session()->get('carrito');
 
-    return redirect('/')->with('success', '¡Pago realizado con éxito!');
+    if (!$user || empty($carrito)) {
+        return redirect()->back()->with('error', 'No se pudo realizar la compra.');
     }
+
+    foreach ($carrito as $curso) {
+        $user->cursos()->attach($curso['id']);
+    }
+
+    // Limpiar el carrito después de la compra
+    session()->forget('carrito');
+
+    return redirect()->route('cursos.ver')->with('success', '¡Compra realizada con éxito!');
+}
 
     public function calcularTotalCarrito($carrito)
     {
@@ -268,4 +293,21 @@ public function pagar()
 
     return $total;
     }
+
+    public function devolverCursoComprado($curso_id)
+{
+    $user = Auth::user();
+    $curso = Curso::find($curso_id);
+
+    if (!$user || !$curso) {
+        return redirect()->back()->with('error', 'No se pudo devolver el curso.');
+    }
+
+    // Eliminar la relación entre el usuario y el curso
+    $user->cursos()->detach($curso_id);
+
+    return redirect()->route('cursos.ver')->with('success', '¡Curso devuelto con éxito!');
+}
+
+    
 }

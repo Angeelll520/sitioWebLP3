@@ -41,9 +41,7 @@
         </div>
         @endforeach
     </div>
-    <div class="mt-4 text-center">
-        <a href="{{ route('ver.carrito') }}" class="btn btn-primary">Ver Carrito</a>
-    </div>
+   
 </div>
 
 @endsection

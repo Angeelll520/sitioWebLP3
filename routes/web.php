@@ -22,6 +22,7 @@ Route::post('/carrito/eliminar/{curso_id}', [CursoController::class, 'eliminarDe
 Route::get('/pagar', [CursoController::class, 'pagar'])->name('pagar');
 Route::post('/procesar-pago', [CursoController::class, 'procesarPago'])->name('procesar.pago');
 Route::post('/pagar', [CursoController::class, 'realizarPago'])->name('realizar.pago');
+Route::post('/cursos/devolver/{curso_id}', [CursoController::class, 'devolverCursoComprado'])->name('cursos.devolver');
 
 
 

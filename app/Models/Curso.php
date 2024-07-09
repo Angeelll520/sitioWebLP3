@@ -29,6 +29,8 @@ class Curso extends Model
     {
         return $this->hasMany(Capitulo::class);
     }
+
+    
     
 
 }

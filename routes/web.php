@@ -19,7 +19,10 @@ Route::get('/cursos/buscar', [CursoController::class, 'buscar'])->name('cursos.b
 Route::post('/carrito/agregar/{curso_id}', [CursoController::class, 'agregarAlCarrito'])->name('carrito.agregar');
 Route::get('/ver-carrito', [CursoController::class, 'verCarrito'])->name('ver.carrito');
 Route::post('/carrito/eliminar/{curso_id}', [CursoController::class, 'eliminarDelCarrito'])->name('carrito.eliminar');
-Route::get('/pagar', [CursoController::class, 'eliminarDelCarrito'])->name('pagar');
+Route::get('/pagar', [CursoController::class, 'pagar'])->name('pagar');
+Route::post('/procesar-pago', [CursoController::class, 'procesarPago'])->name('procesar.pago');
+Route::post('/pagar', [CursoController::class, 'realizarPago'])->name('realizar.pago');
+
 
 
 

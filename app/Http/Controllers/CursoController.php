@@ -224,4 +224,48 @@ public function eliminarDelCarrito($curso_id)
     return redirect()->back()->with('success', 'Curso eliminado del carrito.');
 }
 
+public function pagar()
+    {
+        $carrito = session()->get('carrito');
+
+        // Puedes agregar lógica adicional aquí para validar el carrito antes de proceder al pago
+
+        return view('compras.pagar', compact('carrito'));
+    }
+
+    public function procesarPago(Request $request)
+    {
+        
+        $montoTotal = 0; 
+
+        $carrito = session()->get('carrito');
+
+        foreach ($carrito as $curso) {
+           
+            $montoTotal += $curso['precio'];
+        }
+
+     
+        Session::forget('carrito');
+
+        return redirect()->route('home')->with('success', 'Pago realizado correctamente. ¡Gracias por tu compra!');
+    }
+
+
+    public function realizarPago(Request $request)
+    {
+
+    return redirect('/')->with('success', '¡Pago realizado con éxito!');
+    }
+
+    public function calcularTotalCarrito($carrito)
+    {
+    $total = 0;
+
+    foreach ($carrito as $curso) {
+        $total += $curso['precio'];
+    }
+
+    return $total;
+    }
 }

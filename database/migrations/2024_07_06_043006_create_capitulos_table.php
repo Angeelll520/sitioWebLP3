@@ -11,7 +11,7 @@ class CreateCapitulosTable extends Migration
         Schema::create('capitulos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('curso_id')->constrained()->onDelete('cascade');
-            $table->string('titulo')->default('Sin título'); // Agregando un valor por defecto
+            $table->string('titulo')->default('Sin título'); 
             $table->text('descripcion')->nullable();
             $table->string('video_link')->nullable();
             $table->timestamps();

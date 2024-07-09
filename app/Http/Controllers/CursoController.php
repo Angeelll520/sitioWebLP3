@@ -14,7 +14,7 @@ class CursoController extends Controller
     public function mostrar()
     {
         $cursos = Curso::all();
-        $randomImage = "https://picsum.photos/200/300?random=" . rand(); // Generar URL aleatoria de imagen
+        $randomImage = "https://picsum.photos/200/300?random=" . rand(); 
 
         return view("cursos.verCursos", [
             'cursos' => $cursos,
@@ -50,22 +50,22 @@ class CursoController extends Controller
         "imagen" => "required|image|mimes:jpeg,png,jpg,gif|max:2048", 
     ]);
 
-    // Crear una nueva instancia del modelo Curso
+    
     $curso = new Curso();
     $curso->nombre = $request->input("nombre");
     $curso->precio = $request->input("precio");
     $curso->descripcion = $request->input("descripcion");
     $curso->duracion = $request->input("duracion");
 
-    // Procesar y almacenar la imagen si está presente en la solicitud
+    
     if ($request->hasFile('imagen')) {
         $curso->imagen = $request->file('imagen')->store('upload', 'public');
     }
 
-    // Guardar el curso en la base de datos
+
     $curso->save();
 
-    // Redireccionar a la vista de cursos mostrando un mensaje de éxito
+  
     return redirect("/cursos/mostrar")->with('success', '¡Curso agregado con éxito!');
 }
 
@@ -277,7 +277,7 @@ public function pagar()
         $user->cursos()->attach($curso['id']);
     }
 
-    // Limpiar el carrito después de la compra
+   
     session()->forget('carrito');
 
     return redirect()->route('cursos.ver')->with('success', '¡Compra realizada con éxito!');
@@ -303,7 +303,7 @@ public function pagar()
         return redirect()->back()->with('error', 'No se pudo devolver el curso.');
     }
 
-    // Eliminar la relación entre el usuario y el curso
+    
     $user->cursos()->detach($curso_id);
 
     return redirect()->route('cursos.ver')->with('success', '¡Curso devuelto con éxito!');

@@ -2,7 +2,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CursoController;
 
-// Rutas para la gestión de cursos
+// Rutas proyecto de sitio web
+
 Route::get('/cursos/mostrar', [CursoController::class, 'mostrar'])->middleware('auth')->name('cursos.mostrar');
 Route::get('/cursos/crear', [CursoController::class, 'crear']);
 Route::post('/cursos/guardar', [CursoController::class, 'guardar'])->name('cursos.guardar');
@@ -27,7 +28,7 @@ Route::post('/cursos/devolver/{curso_id}', [CursoController::class, 'devolverCur
 
 
 
-
+//rutas pra guiarme
 
 
 

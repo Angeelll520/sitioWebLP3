@@ -27,9 +27,6 @@
             </div>
         </form>
     </div>
-
-sasas
-
     <div class="row">
         @foreach ($cursos as $curso)
             <div class="col-md-4 mb-4">
